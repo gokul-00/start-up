@@ -1,0 +1,22 @@
+<h3>DEVELOPERS</h3>
+{{> _add_btn route='developers'}}
+<a href="/developers/add">Add developer</a>
+<div class="row">
+    {{#each developers}}
+    <div class="col s12 m4">
+        <div class="card">
+            <div class="card-image">
+                {{{editIcon user ../user _id}}}
+            </div>
+            <div class="card-content center-align">
+                <div class="chip">
+                      <img src="https://img.icons8.com/color/48/000000/gender-neutral-user.png"/>
+                    <a href="/projects/user/{{user._id}}">{{user.name}}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{else}}
+    <p>No developer to display</p>
+    {{/each}}
+</div>

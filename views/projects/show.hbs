@@ -1,0 +1,31 @@
+<div class="row">
+    <div class="col s12 m8">
+        <h3>{{project.title}}
+            <small>{{{editIcon project.user user project._id false}}}</small>
+        </h3>
+        <div class="card story">
+            <div class="card-content">
+                <span class="card-title">{{formatDate date 'MMMM Do YYYY, h:mm:ss a'}}</span>
+                {{{project.body}}}
+            </div>
+        </div>
+        <div class="row rxn">
+            <i class="small material-icons">sentiment_very_dissatisfied</i>
+            <i class="small material-icons">sentiment_dissatisfied</i>
+            <i class="small material-icons">sentiment_neutral</i>
+            <i class="small material-icons">sentiment_satisfied</i>
+            <i class="small material-icons">sentiment_very_satisfied</i>
+        </div>
+    </div>
+    <div class="col s12 m4">
+        <div class="card center-align">
+            <div class="card-content">
+                <span class="card-title">{{project.user.name}}</span>
+                <img src="https://img.icons8.com/color/96/000000/gender-neutral-user.png" class="circle responsive-img img-small">
+            </div>
+            <div class="card-action">
+                <a href="/projects/user/{{project.user._id}}">More From {{project.user.name}}</a>
+            </div>
+        </div>
+    </div>
+</div>
