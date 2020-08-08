@@ -5,14 +5,14 @@
     <div class="col s12 m4">
         <div class="card">
             <div class="card-image">
-                {{{editIcon user ../user _id}}}
+                {{{editIcon user ../user _id "projects"}}}
             </div>
             <div class="card-content center-align">
                 <h5>{{title}}</h5>
                 <p>{{stripTags (truncate body 150)}}</p>
                 <br>
                 <div class="chip">
-                    <img src="https://img.icons8.com/color/48/000000/gender-neutral-user.png" alt="">
+                    <img src="https://robohash.org/{{user._id}}.png?size=50x50">
                     <a href="/projects/user/{{user._id}}">{{user.name}}</a>
                 </div>
             </div>

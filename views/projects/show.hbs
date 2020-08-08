@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col s12 m8">
         <h3>{{project.title}}
-            <small>{{{editIcon project.user user project._id false}}}</small>
+            <small>{{{editIcon project.user user project._id "projects" false }}}</small>
         </h3>
         <div class="card story">
             <div class="card-content">
@@ -21,7 +21,7 @@
         <div class="card center-align">
             <div class="card-content">
                 <span class="card-title">{{project.user.name}}</span>
-                <img src="https://img.icons8.com/color/96/000000/gender-neutral-user.png" class="circle responsive-img img-small">
+                <img src="https://robohash.org/{{project.user._id}}.png?size=100x100" class="circle responsive-img">
             </div>
             <div class="card-action">
                 <a href="/projects/user/{{project.user._id}}">More From {{project.user.name}}</a>

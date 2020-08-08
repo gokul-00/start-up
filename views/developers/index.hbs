@@ -1,26 +1,26 @@
 <h3>DEVELOPERS</h3>
-{{> _add_btn route='developers'}}
-<a href="/developers/add">Add developer</a>
+  {{#if value}} {{> _add_btn route='developers'}} {{/if}}
 <div class="row">
     {{#each developers}}
     <div class="col s12 m4">
-          <div class="card">
-            <div class="card-image waves-effect waves-block waves-light">
-                {{{editIcon user ../user _id}}}
-            <img class="activator" src="https://img.icons8.com/color/96/000000/gender-neutral-user.png">
+        <div class="card">
+            <div class="card-image">
+                {{{editIcon user ../user _id "developers"}}}
             </div>
-            <div class="card-content">
-                <span class="card-title activator grey-text text-darken-4">Card Title<i class="material-icons right">more_vert</i></span>
-                <p><a href="/projects/user/{{user._id}}">{{user.name}}</a></p>
+            <div class="card-content center-align">
+                <h5>{{username}}</h5>
+                <img src="https://robohash.org/{{user._id}}.png?size=100x100" class="circle responsive-img">
+                <br>
+                <div class="chip">
+                  {{field}}
+                </div>
             </div>
-            <div class="card-reveal">
-                <span class="card-title grey-text text-darken-4">Card Title<i class="material-icons right">close</i></span>
-                <p>Here is some more information about this product that is only revealed once clicked on.</p>
+            <div class="card-action center-align">
+                <a href="/developers/{{_id}}" class="btn grey">Read More</a>
             </div>
         </div>
     </div>
     {{else}}
-    <p>No developer to display</p>
+    <p>No developers to display</p>
     {{/each}}
 </div>
-

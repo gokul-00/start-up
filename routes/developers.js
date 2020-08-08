@@ -3,11 +3,10 @@ const router = express.Router()
 const { ensureAuth } = require('../middleware/auth')
 
 const Developer = require('../models/Developer')
-const Profile = require('../models/Profile')
 
 // @desc    Show add page
 // @route   GET /stories/add
-router.get('/add', ensureAuth, (req, res) => {
+router.get('/add', ensureAuth, (req, res) => { 
   res.render('developers/add')
 })
 
@@ -28,12 +27,21 @@ router.post('/', ensureAuth, async (req, res) => {
 // @route   GET /stories
 router.get('/', ensureAuth, async (req, res) => {
   try {
-
     const developers = await Developer.find()
       .populate('user')
       .sort({ createdAt: 'desc' })
+      .lean()
+    let value;
+    const count = await Developer.find({user:req.user._id})  
+    if(count.length >= 1){
+      value = false
+    }else{
+      value = true
+    }
+    console.log(value)
     res.render('developers/index', {
-       developers,
+      developers,
+      value,
     })
   } catch (err) {
     console.error(err)
@@ -98,12 +106,12 @@ router.put('/:id', ensureAuth, async (req, res) => {
     if (developer.user != req.user.id) {
       res.redirect('/developers')
     } else {
-      developer = await developer.findOneAndUpdate({ _id: req.params.id }, req.body, {
+      developer = await Developer.findOneAndUpdate({ _id: req.params.id }, req.body, {
         new: true,
         runValidators: true,
       })
 
-      res.redirect('/dashboard')
+      res.redirect('/developers')
     }
   } catch (err) {
     console.error(err)
@@ -124,7 +132,7 @@ router.delete('/:id', ensureAuth, async (req, res) => {
     if (developer.user != req.user.id) {
       res.redirect('/developers')
     } else {
-      await Developer.remove({ _id: req.params.id })
+      await Project.remove({ _id: req.params.id })
       res.redirect('/dashboard')
     }
   } catch (err) {
@@ -133,22 +141,5 @@ router.delete('/:id', ensureAuth, async (req, res) => {
   }
 })
 
-// @desc    User stories
-// @route   GET /stories/user/:userId
-router.get('/user/:userId', ensureAuth, async (req, res) => {
-  try {
-    const developers = await Developer.find({
-      user: req.params.userId,
-    }).populate('user')
-      .lean()
-
-    res.render('developers/index', {
-      developers,
-    })
-  } catch (err) {
-    console.error(err)
-    res.render('error/500')
-  }
-})
 
 module.exports = router

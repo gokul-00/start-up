@@ -1,0 +1,22 @@
+<div class="center-align">
+    <div class="col s6 m2">       
+        <div class="card center-align">
+            <h4>{{{editIcon developer.user user developer._id "developers" }}}</h4>
+            <div class="card-content">
+                <div class="card-title">
+                    <h3> 
+                        <span class="card-title">{{developer.username}}</span>    
+                    </h3>
+                </div>
+                
+                <img src="https://robohash.org/{{developer.user._id}}.png?size=200x200" class="circle responsive-img">
+            </div>
+            <div class="card-action">
+                <p>Field of Study : {{developer.field}}</p>
+
+                <p>Github : <a href={{developer.github}} class="blue-text">{{developer.github}}</a></p>
+                <a href="/projects/user/{{developer.user._id}}">More From {{developer.username}}</a>
+            </div>
+        </div>
+    </div>
+</div>

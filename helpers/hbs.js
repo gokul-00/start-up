@@ -17,12 +17,12 @@ module.exports = {
   stripTags: function (input) {
     return input.replace(/<(?:.|\n)*?>/gm, '')
   },
-  editIcon: function (projectUser, loggedUser, projectId, floating = true) {
+  editIcon: function (projectUser, loggedUser, projectId, doc, floating = true) {
     if (projectUser._id.toString() == loggedUser._id.toString()) {
       if (floating) {
-        return `<a href="/projects/edit/${projectId}" class="btn-floating halfway-fab blue"><i class="fas fa-edit fa-small"></i></a>`
+        return `<a href="/${doc}/edit/${projectId}" class="btn-floating halfway-fab blue"><i class="fas fa-edit fa-small"></i></a>`
       } else {
-        return `<a href="/projects/edit/${projectId}"><i class="fas fa-edit"></i></a>`
+        return `<a href="/${doc}/edit/${projectId}"><i class="fas fa-edit"></i></a>`
       }
     } else {
       return ''
