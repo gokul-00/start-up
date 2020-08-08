@@ -32,11 +32,8 @@ router.get('/', ensureAuth, async (req, res) => {
     const developers = await Developer.find()
       .populate('user')
       .sort({ createdAt: 'desc' })
-      .lean()
-      const profile = await Profile.find()
     res.render('developers/index', {
        developers,
-       profile,
     })
   } catch (err) {
     console.error(err)

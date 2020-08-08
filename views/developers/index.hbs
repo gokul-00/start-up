@@ -4,15 +4,18 @@
 <div class="row">
     {{#each developers}}
     <div class="col s12 m4">
-        <div class="card">
-            <div class="card-image">
+          <div class="card">
+            <div class="card-image waves-effect waves-block waves-light">
                 {{{editIcon user ../user _id}}}
+            <img class="activator" src="https://img.icons8.com/color/96/000000/gender-neutral-user.png">
             </div>
-            <div class="card-content center-align">
-                <div class="chip">
-                      <img src="https://img.icons8.com/color/48/000000/gender-neutral-user.png"/>
-                    <a href="/projects/user/{{user._id}}">{{user.name}}</a>
-                </div>
+            <div class="card-content">
+                <span class="card-title activator grey-text text-darken-4">Card Title<i class="material-icons right">more_vert</i></span>
+                <p><a href="/projects/user/{{user._id}}">{{user.name}}</a></p>
+            </div>
+            <div class="card-reveal">
+                <span class="card-title grey-text text-darken-4">Card Title<i class="material-icons right">close</i></span>
+                <p>Here is some more information about this product that is only revealed once clicked on.</p>
             </div>
         </div>
     </div>
@@ -20,3 +23,4 @@
     <p>No developer to display</p>
     {{/each}}
 </div>
+
