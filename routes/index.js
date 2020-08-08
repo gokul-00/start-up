@@ -68,11 +68,9 @@ router.get('/profile/:id', ensureAuth, async (req, res) => {
 router.get('/dashboard', ensureAuth, async (req, res) => {
   try {
     const projects = await Project.find({ user: req.user.id }).lean()
-    const profile = await Profile.findOne({ user: req.user.id })
     res.render('dashboard', {
       name: req.user.name,
       projects,
-      id:profile._id,
     })
   } catch (err) {
     console.error(err)
