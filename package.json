@@ -5,8 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "NODE_ENV=production node app",
-    "dev": "cross-env NODE_ENV=development nodemon app",
-    "postinstall": "node ./scripts/post-install.js"
+    "dev": "cross-env NODE_ENV=development nodemon app"
   },
   "keywords": [],
   "author": "gokul",

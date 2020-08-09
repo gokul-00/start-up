@@ -109,6 +109,7 @@ app.use('/', require('./routes/index'))
 app.use('/auth', require('./routes/auth'))
 app.use('/projects', require('./routes/projects'))
 app.use('/developers', require('./routes/developers'))
+app.use('/investors', require('./routes/investors'))
 
 const PORT = process.env.PORT || 3000
 

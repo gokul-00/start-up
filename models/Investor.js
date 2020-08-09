@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const DeveloperSchema = new mongoose.Schema({
+const InvestorSchema = new mongoose.Schema({
   username: {
     type: String,
     required: true,
@@ -10,11 +10,7 @@ const DeveloperSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  github:{
-    type:String,
-    required:false,
-  },
-  codepen:{
+  linkedin:{
     type:String,
     required:false,
   },
@@ -28,4 +24,4 @@ const DeveloperSchema = new mongoose.Schema({
   },
 })
 
-module.exports = mongoose.model('Developer',DeveloperSchema)
+module.exports = mongoose.model('Investor',InvestorSchema)

@@ -1,14 +1,13 @@
 <h6>Dashboard</h6>
+<img src="https://robohash.org/{{developer.user._id}}.png?size=100x100" class="circle responsive-img z-depth-2">
 <h4>Welcome {{name}}</h4>
-<p>Here are your projects</p>
 {{#if projects}}
+<h5>Projects</h5>
 <table class="striped">
     <thead>
         <tr>
             <th>Title</th>
-            <th>Date</th>
-            <th>Status</th>
-            <th></th>
+            <th>Created At</th>
         </tr>
     </thead>
     <tbody>
@@ -16,7 +15,6 @@
         <tr>
             <td><a href="/projects/{{_id}}">{{title}}</a></td>
             <td>{{formatDate createdAt 'MMMM Do YYYY, h:mm:ss a'}}</td>
-            <td><span class="dash-status">{{status}}</span></td>
             <td>
                 <a href="/projects/edit/{{_id}}" class="btn btn-float blue">
                     <i class="large material-icons">mode_edit</i>
@@ -36,3 +34,67 @@
 {{else}}
 <p>You have not created any projects</p>
 {{/if}}
+
+{{#if developer}}
+<h5>Developer Profile</h5>
+<table class="striped">
+    <thead>
+        <tr>
+            <th>Developer name</th>
+            <th>Created At</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><a href="/developers/{{developer._id}}">{{developer.username}}</a></td>
+            <td>{{formatDate developer.createdAt 'MMMM Do YYYY, h:mm:ss a'}}</td>
+            <td>
+                <a href="/developers/edit/{{developer._id}}" class="btn btn-float blue">
+                    <i class="large material-icons">mode_edit</i>
+                </a>
+
+                <form action="/developers/{{developer._id}}" method="POST" id="delete-form">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <button type="submit" class="btn red">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </form>
+            </td>
+        </tr>
+    </tbody>
+</table>
+{{else}}
+  <p>no developer profile</p>
+{{/if}}    
+
+{{#if investor}}
+<h5>Investor Profile</h5>
+<table class="striped">
+    <thead>
+        <tr>
+            <th>Investor name</th>
+            <th>Created At</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><a href="/investors/{{investor._id}}">{{investor.username}}</a></td>
+            <td>{{formatDate investor.createdAt 'MMMM Do YYYY, h:mm:ss a'}}</td>
+            <td>
+                <a href="/investors/edit/{{investor._id}}" class="btn btn-float blue">
+                    <i class="large material-icons">mode_edit</i>
+                </a>
+
+                <form action="/investors/{{investor._id}}" method="POST" id="delete-form">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <button type="submit" class="btn red">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </form>
+            </td>
+        </tr>
+    </tbody>
+</table>
+{{else}}
+  <p>no investor profile</p>
+{{/if}}   

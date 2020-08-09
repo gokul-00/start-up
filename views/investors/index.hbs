@@ -1,11 +1,11 @@
-<h3>DEVELOPERS</h3>
-  {{#if value}} {{> _add_btn route='developers'}} {{/if}}
+<h3>INVESTORS</h3>
+  {{#if value}} {{> _add_btn route='investors'}} {{/if}}
 <div class="row">
-    {{#each developers}}
+    {{#each investors}}
     <div class="col s12 m4">
         <div class="card">
             <div class="card-image">
-                {{{editIcon user ../user _id "developers"}}}
+                {{{editIcon user ../user _id "investors"}}}
             </div>
             <div class="card-content center-align">
                 <h5>{{username}}</h5>
@@ -16,11 +16,11 @@
                 </div>
             </div>
             <div class="card-action center-align">
-                <a href="/developers/{{_id}}" class="btn grey">Read More</a>
+                <a href="/investors/{{_id}}" class="btn grey">Read More</a>
             </div>
         </div>
     </div>
     {{else}}
-    <p>No developers to display</p>
+    <p>No investors to display</p>
     {{/each}}
 </div>

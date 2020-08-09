@@ -1,0 +1,28 @@
+<h3>Update Investor Profile</h3>
+<div class="row">
+    <form action="/investors/{{investor._id}}" method="POST" class="col s12">
+        <input type="hidden" name="_method" value="PUT">
+        <div class="row">
+            <div class="input-field">
+                <input type="text" id="username" name="username" value="{{investor.username}}">
+                <label for="username">Username</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field">
+                <input type="text" id="field" name="field" value="{{investor.field}}">
+                <label for="field">Field of Study</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field">
+                <input type="text" id="linkedin" name="linkedin" value="{{investor.github}}">
+                <label for="linkedin">LinkedIn</label>
+            </div>
+        </div>
+        <div class="row">
+            <input type="submit" value="Save" class="btn">
+            <a href="/dashboard" class="btn orange">Cancel</a>
+        </div>
+    </form>
+</div>

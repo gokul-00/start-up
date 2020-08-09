@@ -2,12 +2,12 @@ const express = require('express')
 const router = express.Router()
 const { ensureAuth } = require('../middleware/auth')
 
-const Developer = require('../models/Developer')
+const Investor = require('../models/Investor')
 
 // @desc    Show add page
 // @route   GET /stories/add
 router.get('/add', ensureAuth, (req, res) => { 
-  res.render('developers/add')
+  res.render('investors/add')
 })
 
 // @desc    Process add form
@@ -15,8 +15,8 @@ router.get('/add', ensureAuth, (req, res) => {
 router.post('/', ensureAuth, async (req, res) => {
   try {
     req.body.user = req.user.id
-    await Developer.create(req.body)
-    res.redirect('/developers')
+    await Investor.create(req.body)
+    res.redirect('/investors')
   } catch (err) {
     console.error(err)
     res.render('error/500')
@@ -27,19 +27,19 @@ router.post('/', ensureAuth, async (req, res) => {
 // @route   GET /stories
 router.get('/', ensureAuth, async (req, res) => {
   try {
-    const developers = await Developer.find()
+    const investors = await Investor.find()
       .populate('user')
       .sort({ createdAt: 'desc' })
       .lean()
     let value;
-    const count = await Developer.find({user:req.user._id})  
+    const count = await Investor.find({user:req.user._id})  
     if(count.length >= 1){
       value = false
     }else{
       value = true
     }
-    res.render('developers/index', {
-      developers,
+    res.render('investors/index', {
+        investors,
       value,
     })
   } catch (err) {
@@ -52,14 +52,14 @@ router.get('/', ensureAuth, async (req, res) => {
 // @route   GET /stories/:id
 router.get('/:id', ensureAuth, async (req, res) => {
   try {
-    let developer = await Developer.findById(req.params.id).populate('user').lean()
+    let investor = await Investor.findById(req.params.id).populate('user').lean()
 
-    if (!developer) {
+    if (!investor) {
       return res.render('error/404')
     }
     
-    res.render('developers/show', {
-      developer,
+    res.render('investors/show', {
+        investor,
     })
   } catch (err) {
     console.error(err)
@@ -71,19 +71,19 @@ router.get('/:id', ensureAuth, async (req, res) => {
 // @route   GET /stories/edit/:id
 router.get('/edit/:id', ensureAuth, async (req, res) => {
   try {
-    const developer = await Developer.findOne({
+    const investor = await Investor.findOne({
       _id: req.params.id,
     }).lean()
 
-    if (!developer) {
+    if (!investor) {
       return res.render('error/404')
     }
 
-    if (developer.user != req.user.id) {
-      res.redirect('/developers')
+    if (investor.user != req.user.id) {
+      res.redirect('/investors')
     } else {
-      res.render('developers/edit', {
-        developer,
+      res.render('investors/edit', {
+        investor,
       })
     }
   } catch (err) {
@@ -96,21 +96,21 @@ router.get('/edit/:id', ensureAuth, async (req, res) => {
 // @route   PUT /stories/:id
 router.put('/:id', ensureAuth, async (req, res) => {
   try {
-    let developer = await Developer.findById(req.params.id).lean()
+    let investor = await Investor.findById(req.params.id).lean()
 
-    if (!developer) {
+    if (!investor) {
       return res.render('error/404')
     }
 
-    if (developer.user != req.user.id) {
-      res.redirect('/developers')
+    if (investor.user != req.user.id) {
+      res.redirect('/investors')
     } else {
-      developer = await Developer.findOneAndUpdate({ _id: req.params.id }, req.body, {
+        investor = await Investor.findOneAndUpdate({ _id: req.params.id }, req.body, {
         new: true,
         runValidators: true,
       })
 
-      res.redirect('/developers')
+      res.redirect('/investors')
     }
   } catch (err) {
     console.error(err)
@@ -122,16 +122,16 @@ router.put('/:id', ensureAuth, async (req, res) => {
 // @route   DELETE /stories/:id
 router.delete('/:id', ensureAuth, async (req, res) => {
   try {
-    let developer = await Developer.findById(req.params.id).lean()
+    let investor = await Investor.findById(req.params.id).lean()
 
-    if (!developer) {
+    if (!investor) {
       return res.render('error/404')
     }
 
-    if (developer.user != req.user.id) {
-      res.redirect('/developers')
+    if (investor.user != req.user.id) {
+      res.redirect('/investors')
     } else {
-      await Developer.remove({ _id: req.params.id })
+      await Investor.remove({ _id: req.params.id })
       res.redirect('/dashboard')
     }
   } catch (err) {
