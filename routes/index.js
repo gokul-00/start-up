@@ -6,6 +6,7 @@ const imageMimeTypes = ['image/jpeg', 'image/png', 'images/gif']
 const Project = require('../models/Project')
 const Developer = require('../models/Developer')
 const Investor = require('../models/Investor')
+const Notification = require('../models/Notification')
 
 // @desc    Login/Landing page
 // @route   GET /
@@ -33,7 +34,51 @@ router.get('/dashboard', ensureAuth, async (req, res) => {
     res.render('error/500')
   }
 })
+router.get('/notification', ensureAuth, async (req, res) => {
+  try {
+    const notification = await Notification.find({ user: req.user.id }).lean()
+    let count = notification.length
+    res.render('notification', {
+      notification,
+      layout:'main',
+      count,
+    })
+  } catch (err) {
+    console.error(err)
+    res.render('error/500')
+  }
+})
 
+router.post('/notify/:id', ensureAuth, async (req, res) => {
+  try {
+    req.body.user = req.params.id
+    await Notification.create(req.body)
+    res.redirect('/dashboard')
+  } catch (err) {
+    console.error(err)
+    res.render('error/500')
+  }
+})
+
+router.delete('/notification/:id', ensureAuth, async (req, res) => {
+  try {
+    let notification = await Notification.findById(req.params.id).lean()
+
+    if (!notification) {
+      return res.render('error/404')
+    }
+
+    if (notification.user != req.user.id) {
+      res.redirect('/dashboard')
+    } else {
+      await Notification.deleteOne({ _id: req.params.id })
+      res.redirect('/notification')
+    }
+  } catch (err) {
+    console.error(err)
+    return res.render('error/500')
+  }
+})
 
 module.exports = router
 

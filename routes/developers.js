@@ -26,11 +26,15 @@ router.post('/', ensureAuth, async (req, res) => {
 // @desc    Show all stories
 // @route   GET /stories
 router.get('/', ensureAuth, async (req, res) => {
+  let query = Developer.find()
+                       .populate('user')
+                       .sort({ createdAt: 'desc' })
+                       .lean()
+  if(req.query.field != null && req.query.field != '') {
+    query = query.regex('field', new RegExp(req.query.field, 'i'))
+  }
   try {
-    const developers = await Developer.find()
-      .populate('user')
-      .sort({ createdAt: 'desc' })
-      .lean()
+    const developers = await query.exec()
     let value;
     const count = await Developer.find({user:req.user._id})  
     if(count.length >= 1){
@@ -41,6 +45,7 @@ router.get('/', ensureAuth, async (req, res) => {
     res.render('developers/index', {
       developers,
       value,
+      searchOptions:req.query
     })
   } catch (err) {
     console.error(err)
@@ -131,7 +136,7 @@ router.delete('/:id', ensureAuth, async (req, res) => {
     if (developer.user != req.user.id) {
       res.redirect('/developers')
     } else {
-      await Developer.remove({ _id: req.params.id })
+      await Developer.deleteOne({ _id: req.params.id })
       res.redirect('/dashboard')
     }
   } catch (err) {

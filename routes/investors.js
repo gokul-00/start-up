@@ -131,7 +131,7 @@ router.delete('/:id', ensureAuth, async (req, res) => {
     if (investor.user != req.user.id) {
       res.redirect('/investors')
     } else {
-      await Investor.remove({ _id: req.params.id })
+      await Investor.deleteOne({ _id: req.params.id })
       res.redirect('/dashboard')
     }
   } catch (err) {

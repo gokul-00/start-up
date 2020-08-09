@@ -1,0 +1,19 @@
+<h4>NOTIFICATION <span class="new-badge btn btn-floating blue">{{count}}</span></h4>
+{{#if notification}}
+<ul class="collection">
+  {{#each notification}}
+    
+    <form action="/notification/{{_id}}" method="POST" id="delete-form">
+        <input type="hidden" name="_method" value="DELETE">
+        <li class="collection-item grey lighten-4">{{message}}
+        <button type="submit" class="large btn-flat">
+            <i class="large material-icons">close</i>
+        </button>
+    </form>
+    </li>
+  {{/each}}  
+</ul>
+{{else}}
+  <h5>No notification to show</h5>
+{{/if}}
+

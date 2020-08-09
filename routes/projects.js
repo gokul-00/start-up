@@ -3,6 +3,7 @@ const router = express.Router()
 const { ensureAuth } = require('../middleware/auth')
 
 const Project = require('../models/Project')
+const Investor = require('../models/Investor')
 
 // @desc    Show add page
 // @route   GET /stories/add
@@ -26,11 +27,15 @@ router.post('/', ensureAuth, async (req, res) => {
 // @desc    Show all stories
 // @route   GET /stories
 router.get('/', ensureAuth, async (req, res) => {
+  let query = Project.find()
+                     .populate('user')
+                     .sort({ createdAt: 'desc' })
+                     .lean()
+  if(req.query.title != null && req.query.title != '') {
+    query = query.regex('title', new RegExp(req.query.title, 'i'))
+  }
   try {
-    const projects = await Project.find({ status: 'public' })
-      .populate('user')
-      .sort({ createdAt: 'desc' })
-      .lean()
+    const projects = await query.exec()
 
     res.render('projects/index', {
       projects,
@@ -45,14 +50,28 @@ router.get('/', ensureAuth, async (req, res) => {
 // @route   GET /stories/:id
 router.get('/:id', ensureAuth, async (req, res) => {
   try {
-    let project = await Project.findById(req.params.id).populate('user').lean()
-
+    const project = await Project.findById(req.params.id).populate('user').lean()
+    let value,name = '',email = '';
+    const investor = await Investor.findOne({user:req.user._id})
+                                   .populate('user')
+                                   .lean()
+    if(investor){
+      if(!(investor.user._id.equals(project.user._id))){
+        value = true
+        name = investor.username
+        email = investor.user.email
+      }else{
+        value = false
+      }
+    }
     if (!project) {
       return res.render('error/404')
     }
-    
     res.render('projects/show', {
       project,
+      value,
+      name,
+      email,
     })
   } catch (err) {
     console.error(err)
@@ -124,7 +143,7 @@ router.delete('/:id', ensureAuth, async (req, res) => {
     if (project.user != req.user.id) {
       res.redirect('/stories')
     } else {
-      await Project.remove({ _id: req.params.id })
+      await Project.deleteOne({ _id: req.params.id })
       res.redirect('/dashboard')
     }
   } catch (err) {
