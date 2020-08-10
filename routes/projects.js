@@ -58,7 +58,7 @@ router.get('/:id', ensureAuth, async (req, res) => {
                                    .populate('user')
                                    .lean()
     if(investor){
-      if(!(investor.user._id.equals(project.user._id))){
+      if(!(req.user._id.equals(project.user._id))){
         value = true
         name = investor.username
         email = investor.user.email

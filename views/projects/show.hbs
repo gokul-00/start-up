@@ -10,15 +10,24 @@
             </div>
         </div>
         <br>
-        <form action="/projects/rating/{{project._id}}" method="post">
-            <input type="hidden" name="_method" value="PUT">
-            <p class="range-field">
-                <input type="range" name="rating" min="0" max="5" class="active">
-                <span class="thumb" style="left: 0px; height: 0px; width: 0px; top: 10px; margin-left: -6px;"></span>
-            </p>
-            <button type="submit">rate</button>
-        </form>
-        <br>
+        {{#if value}}
+        <a class="waves-effect waves-light btn-floating modal-trigger red" href="#modal1"><i class="material-icons">favorite_border</i></a>
+        {{/if}}
+        <!-- Modal Structure -->
+        <div id="modal1" class="modal">
+            <form action="/projects/rating/{{project._id}}" method="post">
+                <div class="modal-content">
+                <input type="hidden" name="_method" value="PUT">
+                    <p class="range-field">
+                        <input type="range" name="rating" min="0" max="5" class="active">
+                        <span class="thumb" style="left: 0px; height: 0px; width: 0px; top: 10px; margin-left: -6px;"></span>
+                    </p>
+                <div class="modal-footer">
+                <button type="submit" class="btn red">Rate</button>
+                </div>
+                </div>
+            </form>
+        </div>
     {{#if value}}
         <form action="/notify/{{project.user._id}}" method="post">
             <input type="text" 
