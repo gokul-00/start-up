@@ -4,14 +4,13 @@ const { ensureAuth } = require('../middleware/auth')
 
 const Investor = require('../models/Investor')
 
-// @desc    Show add page
-// @route   GET /stories/add
+
+// GET /Investors/add
 router.get('/add', ensureAuth, (req, res) => { 
   res.render('investors/add')
 })
 
-// @desc    Process add form
-// @route   POST /stories
+//POST /Investors
 router.post('/', ensureAuth, async (req, res) => {
   try {
     req.body.user = req.user.id
@@ -23,8 +22,8 @@ router.post('/', ensureAuth, async (req, res) => {
   }
 })
 
-// @desc    Show all stories
-// @route   GET /stories
+
+//  GET /Investors
 router.get('/', ensureAuth, async (req, res) => {
   try {
     const investors = await Investor.find()
@@ -48,8 +47,7 @@ router.get('/', ensureAuth, async (req, res) => {
   }
 })
 
-// @desc    Show single story
-// @route   GET /stories/:id
+//  GET /Investors/:id
 router.get('/:id', ensureAuth, async (req, res) => {
   try {
     let investor = await Investor.findById(req.params.id).populate('user').lean()
@@ -67,8 +65,7 @@ router.get('/:id', ensureAuth, async (req, res) => {
   }
 })
 
-// @desc    Show edit page
-// @route   GET /stories/edit/:id
+//  GET /Investors/edit/:id
 router.get('/edit/:id', ensureAuth, async (req, res) => {
   try {
     const investor = await Investor.findOne({
@@ -92,8 +89,8 @@ router.get('/edit/:id', ensureAuth, async (req, res) => {
   }
 })
 
-// @desc    Update story
-// @route   PUT /stories/:id
+// @desc    Update Investor Profile
+// @route   PUT /Investors/:id
 router.put('/:id', ensureAuth, async (req, res) => {
   try {
     let investor = await Investor.findById(req.params.id).lean()
@@ -118,8 +115,8 @@ router.put('/:id', ensureAuth, async (req, res) => {
   }
 })
 
-// @desc    Delete story
-// @route   DELETE /stories/:id
+// @desc    Delete Investor Profile
+// @route   DELETE /Investors/:id
 router.delete('/:id', ensureAuth, async (req, res) => {
   try {
     let investor = await Investor.findById(req.params.id).lean()

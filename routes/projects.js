@@ -6,15 +6,17 @@ const Project = require('../models/Project')
 const Investor = require('../models/Investor')
 
 // @desc    Show add page
-// @route   GET /stories/add
+// @route   GET /Projects/add
 router.get('/add', ensureAuth, (req, res) => {
   res.render('projects/add')
 })
 
 // @desc    Process add form
-// @route   POST /stories
+// @route   POST /Projects
 router.post('/', ensureAuth, async (req, res) => {
   try {
+    const count = [0,0,0,0,0,0]
+    req.body.rating = count
     req.body.user = req.user.id
     await Project.create(req.body)
     res.redirect('/dashboard')
@@ -24,8 +26,8 @@ router.post('/', ensureAuth, async (req, res) => {
   }
 })
 
-// @desc    Show all stories
-// @route   GET /stories
+// @desc    Show all Projects
+// @route   GET /Projects
 router.get('/', ensureAuth, async (req, res) => {
   let query = Project.find()
                      .populate('user')
@@ -46,8 +48,8 @@ router.get('/', ensureAuth, async (req, res) => {
   }
 })
 
-// @desc    Show single story
-// @route   GET /stories/:id
+// @desc    Show single Project
+// @route   GET /Projects/:id
 router.get('/:id', ensureAuth, async (req, res) => {
   try {
     const project = await Project.findById(req.params.id).populate('user').lean()
@@ -80,7 +82,7 @@ router.get('/:id', ensureAuth, async (req, res) => {
 })
 
 // @desc    Show edit page
-// @route   GET /stories/edit/:id
+// @route   GET /Projects/edit/:id
 router.get('/edit/:id', ensureAuth, async (req, res) => {
   try {
     const project = await Project.findOne({
@@ -104,8 +106,8 @@ router.get('/edit/:id', ensureAuth, async (req, res) => {
   }
 })
 
-// @desc    Update story
-// @route   PUT /stories/:id
+// @desc    Update Project
+// @route   PUT /Projects/:id
 router.put('/:id', ensureAuth, async (req, res) => {
   try {
     let project = await Project.findById(req.params.id).lean()
@@ -130,8 +132,32 @@ router.put('/:id', ensureAuth, async (req, res) => {
   }
 })
 
-// @desc    Delete story
-// @route   DELETE /stories/:id
+router.put('/rating/:id', ensureAuth, async (req, res) => {
+  try {
+    let project = await Project.findById(req.params.id).lean()
+    let rating = project.rating
+    if (!project) {
+      return res.render('error/404')
+    }
+
+    if (project.user != req.user.id) {
+      res.redirect('/projects')
+    } else {
+      let index = req.body.rating
+      rating = UpdateArray(rating,index)
+      await Project.updateOne({ _id: req.params.id }, {
+        rating: rating
+      })
+      res.redirect('/dashboard')
+    }
+  } catch (err) {
+    console.error(err)
+    return res.render('error/500')
+  }
+})
+
+// @desc    Delete Project
+// @route   DELETE /Projects/:id
 router.delete('/:id', ensureAuth, async (req, res) => {
   try {
     let project = await Project.findById(req.params.id).lean()
@@ -152,8 +178,8 @@ router.delete('/:id', ensureAuth, async (req, res) => {
   }
 })
 
-// @desc    User stories
-// @route   GET /stories/user/:userId
+// @desc    User Projects
+// @route   GET /Projects/user/:userId
 router.get('/user/:userId', ensureAuth, async (req, res) => {
   try {
     const projects = await Project.find({
@@ -171,5 +197,18 @@ router.get('/user/:userId', ensureAuth, async (req, res) => {
     res.render('error/500')
   }
 })
+
+function UpdateArray(ratings,index){
+  let x = []
+  for(let i=0;i<6;i++){
+    if(i==index){
+      x[i] = ratings[i]+1
+    }
+    else{
+      x[i] = ratings[i]
+    }
+  }
+  return x
+}
 
 module.exports = router

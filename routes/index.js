@@ -34,6 +34,7 @@ router.get('/dashboard', ensureAuth, async (req, res) => {
     res.render('error/500')
   }
 })
+// GET notification
 router.get('/notification', ensureAuth, async (req, res) => {
   try {
     const notification = await Notification.find({ user: req.user.id }).lean()
@@ -49,6 +50,7 @@ router.get('/notification', ensureAuth, async (req, res) => {
   }
 })
 
+//POST notification
 router.post('/notify/:id', ensureAuth, async (req, res) => {
   try {
     req.body.user = req.params.id
@@ -60,6 +62,7 @@ router.post('/notify/:id', ensureAuth, async (req, res) => {
   }
 })
 
+//DELETE notification
 router.delete('/notification/:id', ensureAuth, async (req, res) => {
   try {
     let notification = await Notification.findById(req.params.id).lean()

@@ -5,13 +5,13 @@ const { ensureAuth } = require('../middleware/auth')
 const Developer = require('../models/Developer')
 
 // @desc    Show add page
-// @route   GET /stories/add
+// @route   GET /developers/add
 router.get('/add', ensureAuth, (req, res) => { 
   res.render('developers/add')
 })
 
 // @desc    Process add form
-// @route   POST /stories
+// @route   POST /developers
 router.post('/', ensureAuth, async (req, res) => {
   try {
     req.body.user = req.user.id
@@ -23,8 +23,8 @@ router.post('/', ensureAuth, async (req, res) => {
   }
 })
 
-// @desc    Show all stories
-// @route   GET /stories
+// @desc    Show all developers
+// @route   GET /developers
 router.get('/', ensureAuth, async (req, res) => {
   let query = Developer.find()
                        .populate('user')
@@ -53,8 +53,8 @@ router.get('/', ensureAuth, async (req, res) => {
   }
 })
 
-// @desc    Show single story
-// @route   GET /stories/:id
+// @desc    Show single developer
+// @route   GET /developers/:id
 router.get('/:id', ensureAuth, async (req, res) => {
   try {
     let developer = await Developer.findById(req.params.id).populate('user').lean()
@@ -73,7 +73,7 @@ router.get('/:id', ensureAuth, async (req, res) => {
 })
 
 // @desc    Show edit page
-// @route   GET /stories/edit/:id
+// @route   GET /developers/edit/:id
 router.get('/edit/:id', ensureAuth, async (req, res) => {
   try {
     const developer = await Developer.findOne({
@@ -97,8 +97,8 @@ router.get('/edit/:id', ensureAuth, async (req, res) => {
   }
 })
 
-// @desc    Update story
-// @route   PUT /stories/:id
+// @desc    Update developer
+// @route   PUT /developers/:id
 router.put('/:id', ensureAuth, async (req, res) => {
   try {
     let developer = await Developer.findById(req.params.id).lean()
@@ -123,8 +123,8 @@ router.put('/:id', ensureAuth, async (req, res) => {
   }
 })
 
-// @desc    Delete story
-// @route   DELETE /stories/:id
+// @desc    Delete developer
+// @route   DELETE /developers/:id
 router.delete('/:id', ensureAuth, async (req, res) => {
   try {
     let developer = await Developer.findById(req.params.id).lean()
