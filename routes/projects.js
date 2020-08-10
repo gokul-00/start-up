@@ -156,18 +156,15 @@ router.put('/rating/:id', ensureAuth, async (req, res) => {
     if (!project) {
       return res.render('error/404')
     }
-
-    if (project.user != req.user.id) {
-      res.redirect('/projects')
-    } else {
       let index = req.body.rating
       rating = UpdateArray(rating,index)
+      console.log(rating)
       await Project.updateOne({ _id: req.params.id }, {
         rating: rating
       })
-      res.redirect('/dashboard')
+      res.redirect(`/projects/${req.params.id}`)
     }
-  } catch (err) {
+   catch (err) {
     console.error(err)
     return res.render('error/500')
   }
