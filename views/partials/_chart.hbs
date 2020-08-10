@@ -1,0 +1,78 @@
+<div class="col-s12-m8">
+  <p id="demo" style="display: none;">{{array}}</p>
+  <canvas id="myChart" style="width: 30vh; height: 20vh"></canvas>
+</div>
+
+  <script>
+     
+    let str = document.getElementById('demo').innerHTML
+    let chart=[],j=0;
+    for(let i=0;i<12;i++){
+        if(i%2 == 0){
+        chart[j++] = str[i]
+        }
+    }
+    
+    let myChart = document.getElementById('myChart').getContext('2d');
+    // Global Options
+    Chart.defaults.global.defaultFontFamily = 'Lato';
+    Chart.defaults.global.defaultFontSize = 12;
+    Chart.defaults.global.defaultFontColor = '#777';
+
+    let massPopChart = new Chart(myChart, {
+      type:'horizontalBar', 
+      data:{
+        labels:['0', '1', '2', '3', '4', '5'],
+        datasets:[{
+          label:'Number of Rating',
+          data:[
+            chart[0],
+            chart[1],
+            chart[2],
+            chart[3],
+            chart[4],
+            chart[5],
+          ],
+          //backgroundColor:'green',
+          backgroundColor:[
+            'rgba(255, 99, 132, 0.6)',
+            'rgba(54, 162, 235, 0.6)',
+            'rgba(255, 206, 86, 0.6)',
+            'rgba(75, 192, 192, 0.6)',
+            'rgba(153, 102, 255, 0.6)',
+            'rgba(255, 159, 64, 0.6)',
+            'rgba(255, 99, 132, 0.6)'
+          ],
+          borderWidth:1,
+          borderColor:'#777',
+          hoverBorderWidth:2,
+          hoverBorderColor:'#000'
+        }]
+      },
+      options:{
+        title:{
+          display:true,
+          text:'Public Rating of Your Project',
+          fontSize:25
+        },
+        legend:{
+          display:true,
+          position:'bottom',
+          labels:{
+            fontColor:'#000'
+          }
+        },
+        layout:{
+          padding:{
+            left:10,
+            right:0,
+            bottom:0,
+            top:0
+          }
+        },
+        tooltips:{
+          enabled:true
+        }
+      }
+    });
+  </script>

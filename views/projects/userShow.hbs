@@ -1,31 +1,18 @@
+<div class="container center-align">
 <div class="row">
-    <div class="col s12 m8">
-        <h3>{{project.title}}
-            <small>{{{editIcon project.user user project._id false}}}</small>
-        </h3>
+    <div class="col s12 m12 center-align">
+        <h4>{{project.title}}
+            <span>{{{editIcon project.user user project._id "projects" false }}}</span>
+        </h4>
         <div class="card story">
             <div class="card-content">
                 <span class="card-title">{{formatDate date 'MMMM Do YYYY, h:mm:ss a'}}</span>
                 {{{project.body}}}
             </div>
         </div>
-        <div class="row rxn">
-            <i class="small material-icons">sentiment_very_dissatisfied</i>
-            <i class="small material-icons">sentiment_dissatisfied</i>
-            <i class="small material-icons">sentiment_neutral</i>
-            <i class="small material-icons">sentiment_satisfied</i>
-            <i class="small material-icons">sentiment_very_satisfied</i>
-        </div>
-    </div>
-    <div class="col s12 m4">
-        <div class="card center-align">
-            <div class="card-content">
-                <span class="card-title">{{project.user.displayName}}</span>
-                <img src="{{project.user.image}}" class="circle responsive-img img-small">
-            </div>
-            <div class="card-action">
-                <a href="/projects/user/{{project.user._id}}">More From {{project.user.firstName}}</a>
-            </div>
-        </div>
-    </div>
+    </div> 
+</div>
+
+{{> _chart array=project.rating}}
+
 </div>

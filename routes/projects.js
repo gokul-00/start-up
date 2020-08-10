@@ -5,6 +5,7 @@ const { ensureAuth } = require('../middleware/auth')
 const Project = require('../models/Project')
 const Investor = require('../models/Investor')
 
+
 // @desc    Show add page
 // @route   GET /Projects/add
 router.get('/add', ensureAuth, (req, res) => {
@@ -74,6 +75,22 @@ router.get('/:id', ensureAuth, async (req, res) => {
       value,
       name,
       email,
+    })
+  } catch (err) {
+    console.error(err)
+    res.render('error/404')
+  }
+})
+
+// GET user Analysis
+router.get('/userAnalysis/:id', ensureAuth, async (req, res) => {
+  try {
+    const project = await Project.findById(req.params.id).populate('user').lean()
+    if (!project) {
+      return res.render('error/404')
+    }
+    res.render('projects/userShow', {
+      project,
     })
   } catch (err) {
     console.error(err)

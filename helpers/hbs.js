@@ -20,7 +20,7 @@ module.exports = {
   editIcon: function (projectUser, loggedUser, projectId, doc, floating = true) {
     if (projectUser._id.toString() == loggedUser._id.toString()) {
       if (floating) {
-        return `<a href="/${doc}/edit/${projectId}" class="btn-floating halfway-fab blue"><i class="medium material-icons">mode_edit</i></a>`
+        return `<a href="/${doc}/edit/${projectId}" class="btn-floating blue"><i class="small material-icons">mode_edit</i></a>`
       } else {
         return `<a href="/${doc}/edit/${projectId}"><i class="medium material-icons">mode_edit</i></a>`
       }
