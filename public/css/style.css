@@ -48,5 +48,7 @@ input[type=range]+.thumb.active{
 top: -35px !important;
 }
 
-
+#header {
+  font-family: 'Black Ops One', cursive;
+}
 

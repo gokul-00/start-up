@@ -54,17 +54,25 @@ router.get('/', ensureAuth, async (req, res) => {
 router.get('/:id', ensureAuth, async (req, res) => {
   try {
     const project = await Project.findById(req.params.id).populate('user').lean()
-    let value,name = '',email = '';
+    let value,name = '',email = '',like;
     const investor = await Investor.findOne({user:req.user._id})
                                    .populate('user')
                                    .lean()
     if(investor){
       if(!(req.user._id.equals(project.user._id))){
+        like = true
         value = true
         name = investor.username
         email = investor.user.email
       }else{
+        like = false
         value = false
+      }
+    }else{
+      if(!(req.user._id.equals(project.user._id))){
+        like = true
+      }else{
+        like = false
       }
     }
     if (!project) {
@@ -75,6 +83,7 @@ router.get('/:id', ensureAuth, async (req, res) => {
       value,
       name,
       email,
+      like,
     })
   } catch (err) {
     console.error(err)
@@ -158,7 +167,6 @@ router.put('/rating/:id', ensureAuth, async (req, res) => {
     }
       let index = req.body.rating
       rating = UpdateArray(rating,index)
-      console.log(rating)
       await Project.updateOne({ _id: req.params.id }, {
         rating: rating
       })
