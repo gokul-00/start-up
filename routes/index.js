@@ -37,7 +37,7 @@ router.get('/dashboard', ensureAuth, async (req, res) => {
 // GET notification
 router.get('/notification', ensureAuth, async (req, res) => {
   try {
-    const notification = await Notification.find({ user: req.user.id }).lean()
+    const notification = await Notification.find({ user: req.user.id }).populate('user').lean()
     let count = notification.length
     res.render('notification', {
       notification,
