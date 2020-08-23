@@ -7,6 +7,7 @@ const Project = require('../models/Project')
 const Developer = require('../models/Developer')
 const Investor = require('../models/Investor')
 const Notification = require('../models/Notification')
+const User = require('../models/User')
 
 //  Login/Landing page
 router.get('/', ensureGuest, (req, res) => {
@@ -26,6 +27,19 @@ router.get('/dashboard', ensureAuth, async (req, res) => {
       projects,
       developer,
       investor,
+    })
+  } catch (err) {
+    console.error(err)
+    res.render('error/500')
+  }
+})
+
+router.get('/profile/:id', ensureAuth, async(req, res) => {
+  try {
+    const user = await User.findById( req.params.id ).lean()
+    res.render('profile', {
+      layout:'main',
+      user,
     })
   } catch (err) {
     console.error(err)

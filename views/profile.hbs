@@ -1,0 +1,20 @@
+<a href="/projects" class="btn waves-effect waves-light btn-flat"><i class="large material-icons">arrow_back</i></a>
+<div class="center-align">
+    <div class="col s6 m2">       
+        <div class="card center-align">
+            <div class="card-content">
+                <div class="card-title">
+                    <h3> 
+                        <span class="card-title">{{user.name}}</span>    
+                    </h3>
+                </div>
+                
+                <img src="https://robohash.org/{{user._id}}.png?size=200x200" class="circle responsive-img z-depth-2">
+            </div>
+            <div class="card-action">
+                <p>contact info : {{user.email}}</p>
+                <a href="/projects/user/{{user._id}}">More From {{user.name}}</a>
+            </div>
+        </div>
+    </div>
+</div>
