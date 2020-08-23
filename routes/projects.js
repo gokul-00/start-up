@@ -6,14 +6,12 @@ const Project = require('../models/Project')
 const Investor = require('../models/Investor')
 
 
-// @desc    Show add page
-// @route   GET /Projects/add
+//   Show add page
 router.get('/add', ensureAuth, (req, res) => {
   res.render('projects/add')
 })
 
-// @desc    Process add form
-// @route   POST /Projects
+//  Add Project
 router.post('/', ensureAuth, async (req, res) => {
   try {
     const count = [0,0,0,0,0,0]
@@ -27,8 +25,8 @@ router.post('/', ensureAuth, async (req, res) => {
   }
 })
 
-// @desc    Show all Projects
-// @route   GET /Projects
+//  Show all Projects
+
 router.get('/', ensureAuth, async (req, res) => {
   let query = Project.find()
                      .populate('user')
@@ -49,12 +47,17 @@ router.get('/', ensureAuth, async (req, res) => {
   }
 })
 
-// @desc    Show single Project
-// @route   GET /Projects/:id
+//  Show single Project
 router.get('/:id', ensureAuth, async (req, res) => {
   try {
     const project = await Project.findById(req.params.id).populate('user').lean()
     let value,name = '',email = '',like;
+    let avg = 0
+    project.rating.forEach(n => {
+      avg += n
+    });
+    let avgrating = avgRating(avg/5)
+    console.log(avgrating,avg/5)
     const investor = await Investor.findOne({user:req.user._id})
                                    .populate('user')
                                    .lean()
@@ -84,6 +87,8 @@ router.get('/:id', ensureAuth, async (req, res) => {
       name,
       email,
       like,
+      avgrating,
+      avg:avg/5,
     })
   } catch (err) {
     console.error(err)
@@ -107,8 +112,7 @@ router.get('/userAnalysis/:id', ensureAuth, async (req, res) => {
   }
 })
 
-// @desc    Show edit page
-// @route   GET /Projects/edit/:id
+//  Show edit page
 router.get('/edit/:id', ensureAuth, async (req, res) => {
   try {
     const project = await Project.findOne({
@@ -132,8 +136,7 @@ router.get('/edit/:id', ensureAuth, async (req, res) => {
   }
 })
 
-// @desc    Update Project
-// @route   PUT /Projects/:id
+//  Update Project
 router.put('/:id', ensureAuth, async (req, res) => {
   try {
     let project = await Project.findById(req.params.id).lean()
@@ -158,6 +161,7 @@ router.put('/:id', ensureAuth, async (req, res) => {
   }
 })
 
+// Update Rating 
 router.put('/rating/:id', ensureAuth, async (req, res) => {
   try {
     let project = await Project.findById(req.params.id).lean()
@@ -178,8 +182,7 @@ router.put('/rating/:id', ensureAuth, async (req, res) => {
   }
 })
 
-// @desc    Delete Project
-// @route   DELETE /Projects/:id
+//  Delete Project
 router.delete('/:id', ensureAuth, async (req, res) => {
   try {
     let project = await Project.findById(req.params.id).lean()
@@ -189,7 +192,7 @@ router.delete('/:id', ensureAuth, async (req, res) => {
     }
 
     if (project.user != req.user.id) {
-      res.redirect('/stories')
+      res.redirect('/projects')
     } else {
       await Project.deleteOne({ _id: req.params.id })
       res.redirect('/dashboard')
@@ -200,8 +203,7 @@ router.delete('/:id', ensureAuth, async (req, res) => {
   }
 })
 
-// @desc    User Projects
-// @route   GET /Projects/user/:userId
+//  User Projects
 router.get('/user/:userId', ensureAuth, async (req, res) => {
   try {
     const projects = await Project.find({
@@ -220,6 +222,7 @@ router.get('/user/:userId', ensureAuth, async (req, res) => {
   }
 })
 
+// Updating Rating array
 function UpdateArray(ratings,index){
   let x = []
   for(let i=0;i<6;i++){
@@ -231,6 +234,25 @@ function UpdateArray(ratings,index){
     }
   }
   return x
+}
+
+// Calculating average rating
+function avgRating(n) {
+  let output = ''
+  let roundOff = Math.round(n)
+  for(let i=1;i<=n;i++){
+    output += '<i class="material-icons orange-text">star</i>'
+  }
+  if(n-roundOff < 0.5 && n!=roundOff){
+    output += '<i class="material-icons orange-text">star_border</i>'
+  }else if(n!=roundOff){
+    output += '<i class="material-icons orange-text">star_half</i>'
+  }
+  for(let j=1;j<=(5-n);j++){
+    output += '<i class="material-icons orange-text">star_border</i>'
+  }
+
+  return output
 }
 
 module.exports = router

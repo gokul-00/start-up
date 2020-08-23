@@ -1,34 +1,8 @@
-// const express = require('express')
-// const passport = require('passport')
-// const router = express.Router()
-
-// // @desc    Auth with Google
-// // @route   GET /auth/google
-// router.get('/google', passport.authenticate('google', { scope: ['profile'] }))
-
-// // @desc    Google auth callback
-// // @route   GET /auth/google/callback
-// router.get(
-//   '/google/callback',
-//   passport.authenticate('google', { failureRedirect: '/' }),
-//   (req, res) => {
-//     res.redirect('/dashboard')
-//   }
-// )
-
-// // @desc    Logout user
-// // @route   /auth/logout
-// router.get('/logout', (req, res) => {
-//   req.logout()
-//   res.redirect('/')
-// })
-
-// module.exports = router
-
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
+
 // Load User model
 const User = require('../models/User');
 const { ensureGuest } = require('../middleware/auth');
@@ -95,10 +69,6 @@ router.post('/register', (req, res) => {
             newUser
               .save()
               .then(user => {
-                // req.flash(
-                //   'success_msg',
-                //   'You are now registered and can log in'
-                // );
                 res.redirect('/auth/login');
               })
               .catch(err => console.log(err));

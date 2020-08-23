@@ -8,16 +8,14 @@ const Developer = require('../models/Developer')
 const Investor = require('../models/Investor')
 const Notification = require('../models/Notification')
 
-// @desc    Login/Landing page
-// @route   GET /
+//  Login/Landing page
 router.get('/', ensureGuest, (req, res) => {
   res.render('login', {
     layout: 'login',
   })
 })
 
-// @desc    Dashboard
-// @route   GET /dashboard
+//  Dashboard
 router.get('/dashboard', ensureAuth, async (req, res) => {
   try {
     const projects = await Project.find({ user: req.user.id }).lean()

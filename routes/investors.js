@@ -5,12 +5,12 @@ const { ensureAuth } = require('../middleware/auth')
 const Investor = require('../models/Investor')
 
 
-// GET /Investors/add
+// GET Investors/add
 router.get('/add', ensureAuth, (req, res) => { 
   res.render('investors/add')
 })
 
-//POST /Investors
+// Add Investor Profile
 router.post('/', ensureAuth, async (req, res) => {
   try {
     req.body.user = req.user.id
@@ -23,7 +23,7 @@ router.post('/', ensureAuth, async (req, res) => {
 })
 
 
-//  GET /Investors
+//  Show All Investors
 router.get('/', ensureAuth, async (req, res) => {
   try {
     const investors = await Investor.find()
@@ -47,7 +47,7 @@ router.get('/', ensureAuth, async (req, res) => {
   }
 })
 
-//  GET /Investors/:id
+//  Show Investor
 router.get('/:id', ensureAuth, async (req, res) => {
   try {
     let investor = await Investor.findById(req.params.id).populate('user').lean()
@@ -65,7 +65,7 @@ router.get('/:id', ensureAuth, async (req, res) => {
   }
 })
 
-//  GET /Investors/edit/:id
+//  Edit Investor Profile
 router.get('/edit/:id', ensureAuth, async (req, res) => {
   try {
     const investor = await Investor.findOne({
@@ -89,8 +89,7 @@ router.get('/edit/:id', ensureAuth, async (req, res) => {
   }
 })
 
-// @desc    Update Investor Profile
-// @route   PUT /Investors/:id
+//   Update Investor Profile
 router.put('/:id', ensureAuth, async (req, res) => {
   try {
     let investor = await Investor.findById(req.params.id).lean()
@@ -115,8 +114,7 @@ router.put('/:id', ensureAuth, async (req, res) => {
   }
 })
 
-// @desc    Delete Investor Profile
-// @route   DELETE /Investors/:id
+//   Delete Investor Profile
 router.delete('/:id', ensureAuth, async (req, res) => {
   try {
     let investor = await Investor.findById(req.params.id).lean()

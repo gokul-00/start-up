@@ -4,14 +4,13 @@ const { ensureAuth } = require('../middleware/auth')
 
 const Developer = require('../models/Developer')
 
-// @desc    Show add page
-// @route   GET /developers/add
+// Show add page
 router.get('/add', ensureAuth, (req, res) => { 
   res.render('developers/add')
 })
 
-// @desc    Process add form
-// @route   POST /developers
+//  Process add form
+
 router.post('/', ensureAuth, async (req, res) => {
   try {
     req.body.user = req.user.id
@@ -23,8 +22,7 @@ router.post('/', ensureAuth, async (req, res) => {
   }
 })
 
-// @desc    Show all developers
-// @route   GET /developers
+//   Show all developers
 router.get('/', ensureAuth, async (req, res) => {
   let query = Developer.find()
                        .populate('user')
@@ -53,8 +51,7 @@ router.get('/', ensureAuth, async (req, res) => {
   }
 })
 
-// @desc    Show single developer
-// @route   GET /developers/:id
+//   Show single developer
 router.get('/:id', ensureAuth, async (req, res) => {
   try {
     let developer = await Developer.findById(req.params.id).populate('user').lean()
@@ -72,8 +69,7 @@ router.get('/:id', ensureAuth, async (req, res) => {
   }
 })
 
-// @desc    Show edit page
-// @route   GET /developers/edit/:id
+//  Show edit page
 router.get('/edit/:id', ensureAuth, async (req, res) => {
   try {
     const developer = await Developer.findOne({
@@ -97,8 +93,7 @@ router.get('/edit/:id', ensureAuth, async (req, res) => {
   }
 })
 
-// @desc    Update developer
-// @route   PUT /developers/:id
+// Update developer
 router.put('/:id', ensureAuth, async (req, res) => {
   try {
     let developer = await Developer.findById(req.params.id).lean()
@@ -123,8 +118,7 @@ router.put('/:id', ensureAuth, async (req, res) => {
   }
 })
 
-// @desc    Delete developer
-// @route   DELETE /developers/:id
+// Delete developer
 router.delete('/:id', ensureAuth, async (req, res) => {
   try {
     let developer = await Developer.findById(req.params.id).lean()
